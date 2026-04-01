@@ -4,22 +4,10 @@ import matplotlib.pyplot as plt
 
 model=pybamm.lithium_ion.SPMe()
 
-steps = ["Charge at 2 A for 30 seconds"]
-
-pulse_time = 0.1
-num_pulse = 18
-
-for i in range(num_pulse):
-    steps.append(f"Charge at 2 A for 0.5 seconds")
-    steps.append(f"Rest for {pulse_time} seconds")
-    
-    pulse_time *= 1.3
-
-steps.append(f"Hold at 3.9 V for 10 seconds")
-
-
-
-experiment=pybamm.Experiment(steps)
+experiment=pybamm.Experiment([
+    "Charge at 1 A for 1 second",
+    "Charge at 0.5 A for 2 second",
+]*40)
 
 sim=pybamm.Simulation(model, experiment=experiment)
 solution=sim.solve()
@@ -46,5 +34,4 @@ plt.title("Current")
 
 plt.tight_layout()
 plt.show()
-
 
